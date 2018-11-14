@@ -68,5 +68,7 @@ deck = Deck()
 for card in deck.cards:
     print(card)
 
+#2018/11/15
 
+print("See you!!")
 
