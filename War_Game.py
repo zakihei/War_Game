@@ -1,5 +1,6 @@
 #!/usr/bin/python env
 #-*- coding utf-8 -*-
+#2018/11/15
 
 from random import shuffle
 
@@ -54,21 +55,61 @@ class Deck:
             return
         return self.cards.pop()
 
+#2018/11/17
 
-           
-card1 = Card(10, 2)
-card2 = Card(11, 3)
+class Player: 
+    def __init__(self, name):
+        self.wins = 0
+        self.card = None
+        self.name = name
 
-#Step1
-#print(card1 < card2)
-#print(card1)
+class Game:
+    def __init__(self):
+        name1 = input("Player1's name: ")
+        name2 = input("Player2's name: ")
+        self.deck = Deck()
+        self.p1 = Player(name1)
+        self.p2 = Player(name2)
 
-#Step2
-deck = Deck()
-for card in deck.cards:
-    print(card)
+    def wins(self, winner):
+        w = "This round is {} win."
+        w = w.format(winner)
+        print(w)
 
-#2018/11/15
+    def draw(self, p1n, p1c, p2n, p2c):
+        d = "{} is {}, {} is {} draw"
+        d = d.format(p1n, p1c, p2n, p2c)
+        print(d)
 
-print("See you!!")
+    def play_game(self):
+        cards = self.deck.cards
+        print("Start War!")
+        while len(cards) >= 2:
+            m = "q:End, other key: Play"
+            response = input(m)
+            if response == 'q':
+                break
+            p1c = self.deck.rm_cards()
+            p2c = self.deck.rm_cards()
+            p1n = self.p1.name
+            p2n = self.p2.name
+            self.draw(p1n, p1c, p2n, p2c)
+            if p1c > p2c:
+                self.p1.wins += 1
+                self.wins(self.p1.name)
+            else:
+                self.p2.wins += 1
+                self.wins(self.p2.name)
 
+        win = self.winner(self.p1, self.p2)
+        print("Game is end, {} is winner".format(win))
+
+    def winner(self, p1, p2):
+        if p1.wins > p2.wins:
+            return p1.name
+        if p1.wins < p2.wins:
+            return p2.name
+        return "Draw"
+
+game = Game()
+game.play_game()
